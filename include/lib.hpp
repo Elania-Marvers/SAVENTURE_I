@@ -1,4 +1,9 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/OpenGL.hpp>
+
+
+#include <time.h>
 #include <iostream>
 #include <fstream>
 #include <cerrno>
@@ -20,3 +25,17 @@
 #include <exception>
 #include <iostream>
 #include <string>
+
+
+#include "define.hpp"
+#include "union.hpp"
+#include "enum.hpp"
+#include "struct.hpp"
+#include "panda_window.hpp"
+
+
+//function prototype
+void GO_ON(void);
+sf::Color panda_set_color (unsigned int color);
+
+

@@ -20,7 +20,7 @@
 
   LIBSPATH	=	-L$(HOME)/.froot/lib/
 
-  LIBRARIES	=	-lsfml-graphics -lsfml-window -lsfml-system
+  LIBRARIES	=	-lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
 
 ##################################################################################################################
 ##  COLORS                                                                                                      ##
