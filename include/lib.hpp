@@ -2,7 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
 
-
+#include <math.h>
 #include <time.h>
 #include <iostream>
 #include <fstream>
@@ -29,9 +29,10 @@
 #include <unistd.h>
 
 
-#include "define.hpp"
+
 #include "union.hpp"
 #include "enum.hpp"
+#include "define.hpp"
 #include "struct.hpp"
 #include "panda_window.hpp"
 
