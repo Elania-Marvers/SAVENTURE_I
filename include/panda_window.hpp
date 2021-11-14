@@ -2,9 +2,8 @@ class panda_window
 {
 private:
   sf::RenderWindow	_window;
-  sf::Image		_background;
-  sf::Texture		_texture;
   sf::Sprite		_spr;
+  sf::RenderTexture	_pixelarray;
   int			_width,
 			_height,
 			_winSize;
@@ -23,8 +22,9 @@ public:
   int getHeight(void) const;
   int getWinSize(void) const;
 
+  void clear_pixelarray(unsigned int);
   void setPixel(t_panda_position, unsigned int);
-  void setPixel(t_panda_accurate_position pos, unsigned int color);
-  void setLine(t_panda_position *pos, unsigned int color);
-  
+  void setLine(t_panda_position *, unsigned int);
+  void setRect(t_panda_position *pos, unsigned int color);  
+  void setCircle(t_panda_position, int, unsigned int);  
 };

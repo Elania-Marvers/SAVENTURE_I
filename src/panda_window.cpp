@@ -3,13 +3,15 @@
 panda_window::panda_window(int width, int height, const char *name)
   : _window(sf::VideoMode(width, height), name), _width(width), _height(height), _winSize(width * height)
 {
-  _background.create(_width, _height, panda_set_color(RED));
-  _texture.loadFromImage(_background);
-  _spr.setTexture(_texture);
+  _pixelarray.create(_width, _height);
+  _pixelarray.clear(sf::Color::Red);
 
   sf::Image icon;
   icon.loadFromFile("ressources/icon.png"); // File/Image/Pixel
   _window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
+
+  _window.setFramerateLimit(60);
 }
 
 panda_window::~panda_window()
@@ -29,8 +31,7 @@ void panda_window::clear(void)
 
 void panda_window::display(void)
 {
-  _texture.loadFromImage(_background);
-  _spr.setTexture(_texture);
+  _spr.setTexture(_pixelarray.getTexture());
   _window.draw(_spr);
   _window.display();
 }
@@ -64,29 +65,48 @@ int panda_window::getWinSize(void) const
 
 void panda_window::setPixel(t_panda_position pos, unsigned int color)
 {
-  _background.setPixel(pos.x, pos.y, panda_set_color(color));
-}
+  sf::Vertex line[] =
+    {
+      sf::Vertex(sf::Vector2f(pos.x, pos.y), panda_set_color(color), sf::Vector2f(pos.x, pos.y)),
+      sf::Vertex(sf::Vector2f(pos.x + 1, pos.y + 1), panda_set_color(color), sf::Vector2f(pos.x + 1, pos.y + 1))
+    };
 
-void panda_window::setPixel(t_panda_accurate_position pos, unsigned int color)
-{
-  _background.setPixel((int) pos.x, (int) pos.y, panda_set_color(color));
+  _pixelarray.draw(line, 2, sf::Lines);
 }
 
 void panda_window::setLine(t_panda_position *pos, unsigned int color)
 {
-  t_panda_accurate_position draw = {(double) pos[0].x, (double) pos[1].x};
-  t_panda_accurate_position vec = {((double) pos[1].x - (double) pos[0].x), ((double) pos[1].y - (double) pos[0].y)};
-  t_panda_position memory = {(int) draw.x, (int) draw.y};
-  double ratio = (std::abs(vec.x) > std::abs(vec.y)) ? 1.0 / ((double) std::abs(vec.x)) : 1.0 / ((double) std::abs(vec.y));
-  for (double a = 0.0; a <= 1; a += ratio)
+  sf::Vertex line[] =
     {
-      draw = {	(double) pos[0].x + vec.x * a,
-		(double) pos[0].y + vec.y * a,};
-      if ((int) draw.x != memory.x || (int) draw.y != memory.y)
-	setPixel(draw, color);
-      memory = {(int) draw.x, (int) draw.y};
-    }  
+      sf::Vertex(sf::Vector2f(pos[0].x, pos[0].y), panda_set_color(color), sf::Vector2f(pos[0].x, pos[0].y)),
+      sf::Vertex(sf::Vector2f(pos[1].x, pos[1].y), panda_set_color(color), sf::Vector2f(pos[1].x, pos[1].y))
+    };
+
+  _pixelarray.draw(line, 2, sf::Lines);
 }
 
 
 
+void panda_window::clear_pixelarray(unsigned int color)
+{
+  _pixelarray.clear(panda_set_color(color));
+}
+
+
+void panda_window::setRect(t_panda_position *pos, unsigned int color)
+{
+  sf::RectangleShape rectangle;
+  rectangle.setPosition(sf::Vector2f(pos[0].x, pos[0].y));
+  rectangle.setFillColor(panda_set_color(color));
+  rectangle.setSize(sf::Vector2f(pos[1].x - pos[0].x, pos[1].y - pos[0].y));
+  _pixelarray.draw(rectangle);
+}
+
+void panda_window::setCircle(t_panda_position pos, int radius, unsigned int color)
+{
+  sf::CircleShape shape;
+  shape.setRadius(radius);
+  shape.setPosition(sf::Vector2f(pos.x, pos.y));
+  shape.setFillColor(panda_set_color(color));
+  _pixelarray.draw(shape);
+}

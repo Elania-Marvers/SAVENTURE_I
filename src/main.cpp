@@ -15,24 +15,24 @@ int main(void)
   while (win.isOpen())
     {
 
-      win.event();
 
-      /*
+
+      
       t_panda_position pos;
       pos = {rand() % win.getWidth(), rand() % win.getHeight()};
-      win.setPixel(pos, BLACK);
-      */
+      //      win.setPixel(pos, PDA_COLOR(rand()%255, rand()%255, rand()%255, 128));
+      win.setCircle(pos, rand()%100, PDA_COLOR(rand()%255, rand()%255, rand()%255, rand()%255));
+      
 
-      /*
+            
       t_panda_position drawer[2];
       drawer[0] = {rand() % win.getWidth(), rand() % win.getHeight()};
       drawer[1] = {rand() % win.getWidth(), rand() % win.getHeight()};      
-      win.setLine(drawer, rand());
-      */
-
-
+      //win.setLine(drawer, rand());
+      //win.setRect(drawer, PDA_COLOR(rand()%255, rand()%255, rand()%255, rand()%255));
       
-      
+      //      sleep(1);
+      win.event();
       win.clear();
       win.display();
     }
